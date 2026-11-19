@@ -1,0 +1,41 @@
+# pyproject.toml — the "ID card" of a Python project.
+# It tells tools: the project's name, which Python it needs, which libraries
+# it depends on, and how the dev tools (ruff, pytest) should behave.
+
+[project]
+name = "not-decided-yet"
+version = "0.1.0"
+description = "AI-native Python + Azure starter"
+readme = "README.md"
+requires-python = ">=3.12"
+# Runtime dependencies: libraries the app needs to run.
+dependencies = [
+    "python-dotenv>=1.0",   # reads settings from a .env file into environment variables
+]
+
+# Dev-only dependencies: tools for developers, not needed in production.
+[dependency-groups]
+dev = [
+    "pytest>=8.0",          # runs automated tests
+    "ruff>=0.6",            # linter + formatter (finds bugs & fixes style)
+    "pre-commit>=3.7",      # runs checks automatically before every git commit
+]
+
+# Tells Python how to "build" this folder into an installable package.
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/not_decided_yet"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+# E/F = common errors, I = sorted imports, B = likely bugs, UP = modern Python syntax
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

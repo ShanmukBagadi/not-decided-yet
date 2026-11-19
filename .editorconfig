@@ -1,0 +1,14 @@
+# .editorconfig — tells any code editor (VS Code, PyCharm...) basic formatting rules,
+# so files look the same no matter who (or which AI) edits them.
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+[*.{yml,yaml,json,bicep,md}]
+indent_size = 2

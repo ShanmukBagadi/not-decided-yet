@@ -1,0 +1,24 @@
+# .pre-commit-config.yaml — checks that run automatically every time you `git commit`.
+# If a check fails, the commit is blocked so you can fix the problem first.
+# Turn it on once per machine with:  uv run pre-commit install
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: detect-private-key        # blocks committing private keys
+
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.21.2
+    hooks:
+      - id: gitleaks                  # scans for passwords / API keys / tokens
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.7.4
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
