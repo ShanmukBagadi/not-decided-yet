@@ -142,3 +142,22 @@ resources while helping you code; with a Microsoft 365 MCP server, it could read
 We haven't added any yet. We'll add them once the project idea is decided.
 
 **Agent**: An AI that can take actions (run tools, edit files) in steps toward a goal, not just chat.
+
+---
+
+## Websites
+
+**POC (Proof of Concept)**: A small, quick demo that shows an idea works before you invest in building
+it properly. See `poc/website-demo/`.
+
+**HTML**: The *structure* of a web page: headings, paragraphs, buttons, forms.
+
+**CSS**: The *look* of a web page: colors, fonts, spacing, layout. Lives inside `<style>` in our demo.
+
+**JavaScript (JS)**: The *behavior* of a web page: things that react when you click, like the menu tabs
+and the order cart. Lives inside `<script>` in our demo.
+
+**Responsive design**: A page that rearranges itself to fit phones, tablets and desktops.
+
+**Dark mode**: An alternate dark color scheme. Our demo switches automatically based on the visitor's
+device setting.

@@ -1,0 +1,381 @@
+<title>Juniper Hearth Bakery</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Concept website for a fictional Redmond bakery. Proof of concept.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap">
+<style>
+  /* Layout: single column, full-width bands; menu in a responsive grid; order card beside hours on wide screens. */
+  :root {
+    --bg: #f6f7f2;
+    --surface: #ffffff;
+    --fg: #1c2620;
+    --muted: #59665e;
+    --line: #dfe4dc;
+    --juniper: #2c6a4d;
+    --juniper-ink: #ffffff;
+    --butter: #f0bd45;
+    --butter-ink: #2a2108;
+    --hero: #1f4d38;
+    --hero-fg: #f3f6ef;
+    --note-bg: #fff4d6;
+    --note-fg: #5a4410;
+    --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+    --body: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #111915; --surface: #18221d; --fg: #e6ece7; --muted: #9eaca4; --line: #2a3730;
+      --juniper: #7cc29f; --juniper-ink: #0f1a14; --butter: #f0bd45; --butter-ink: #2a2108;
+      --hero: #163b2a; --hero-fg: #eef3ec; --note-bg: #3a2f12; --note-fg: #f6dc9a;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #111915; --surface: #18221d; --fg: #e6ece7; --muted: #9eaca4; --line: #2a3730;
+    --juniper: #7cc29f; --juniper-ink: #0f1a14; --butter: #f0bd45; --butter-ink: #2a2108;
+    --hero: #163b2a; --hero-fg: #eef3ec; --note-bg: #3a2f12; --note-fg: #f6dc9a;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--fg); font: 400 1rem/1.6 var(--body); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1, h2, h3 { font-family: var(--display); line-height: 1.1; text-wrap: balance; margin: 0; }
+  h2 { font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 800; letter-spacing: -0.01em; }
+  p { margin: 0; }
+  a { color: inherit; }
+  :focus-visible { outline: 3px solid var(--butter); outline-offset: 2px; border-radius: 6px; }
+  .eyebrow { font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--juniper); }
+
+  /* Concept note */
+  .note { background: var(--note-bg); color: var(--note-fg); font-size: .88rem; }
+  .note .wrap { padding-block: 10px; display: flex; flex-wrap: wrap; gap: 4px 12px; justify-content: space-between; }
+
+  /* Nav */
+  nav { border-bottom: 1px solid var(--line); background: var(--surface); }
+  nav .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; flex-wrap: wrap; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 800; font-size: 1.2rem; text-decoration: none; }
+  .brand svg { flex: none; }
+  .links { display: flex; gap: 18px; flex-wrap: wrap; font-weight: 500; font-size: .95rem; }
+  .links a { text-decoration: none; color: var(--muted); }
+  .links a:hover { color: var(--fg); }
+
+  /* Hero */
+  .hero { background: var(--hero); color: var(--hero-fg); }
+  .hero .wrap { padding-block: clamp(48px, 8vw, 88px); display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center; }
+  .hero h1 { font-size: clamp(2.4rem, 6.5vw, 4.4rem); font-weight: 800; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: normal; color: var(--butter); }
+  .hero p.lede { margin-top: 18px; font-size: 1.12rem; max-width: 34ch; opacity: .92; }
+  .hero .eyebrow { color: var(--butter); margin-bottom: 14px; display: block; }
+  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 20px; border-radius: 999px; font: 600 1rem var(--body); text-decoration: none; border: 2px solid transparent; cursor: pointer; }
+  .btn-primary { background: var(--butter); color: var(--butter-ink); }
+  .btn-primary:hover { filter: brightness(1.05); }
+  .btn-ghost { border-color: currentColor; color: var(--hero-fg); background: transparent; }
+  .today { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.18); border-radius: 18px; padding: 22px; display: grid; gap: 14px; }
+  .today h3 { font-size: 1.1rem; font-weight: 700; }
+  .bake-times { display: grid; gap: 8px; font-variant-numeric: tabular-nums; }
+  .bake-times div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px dashed rgba(255,255,255,.22); padding-bottom: 8px; }
+  .bake-times div:last-child { border-bottom: 0; padding-bottom: 0; }
+  .bake-times span:last-child { color: var(--butter); font-weight: 600; white-space: nowrap; }
+  .open-pill { display: inline-flex; align-items: center; gap: 8px; font-size: .88rem; font-weight: 600; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; background: #6ee7a0; }
+  .dot.closed { background: #f08a7a; }
+
+  section.band { padding-block: clamp(48px, 7vw, 80px); }
+  .section-head { display: grid; gap: 8px; margin-bottom: 28px; max-width: 60ch; }
+  .section-head p { color: var(--muted); }
+
+  /* Menu */
+  .tabs { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 22px; }
+  .tab { font: 600 .95rem var(--body); padding: 8px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--fg); cursor: pointer; }
+  .tab[aria-selected="true"] { background: var(--juniper); color: var(--juniper-ink); border-color: var(--juniper); }
+  .menu { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0 32px; }
+  .item { display: grid; grid-template-columns: 1fr auto; gap: 2px 12px; padding-block: 14px; border-bottom: 1px solid var(--line); }
+  .item h3 { font-size: 1.05rem; font-weight: 700; }
+  .item .price { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .item p { grid-column: 1 / -1; color: var(--muted); font-size: .92rem; }
+  .tag { display: inline-block; font-size: .7rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--juniper); margin-left: 6px; vertical-align: middle; }
+
+  /* Order + visit */
+  .split { display: grid; grid-template-columns: 1.1fr 1fr; gap: 32px; align-items: start; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 24px; display: grid; gap: 16px; min-width: 0; }
+  .card h3 { font-size: 1.3rem; font-weight: 800; }
+  label { font-weight: 600; font-size: .92rem; display: grid; gap: 6px; }
+  select, input { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); width: 100%; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .order-lines { display: grid; gap: 8px; }
+  .order-line { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; font-variant-numeric: tabular-nums; }
+  .qty { display: inline-flex; align-items: center; gap: 6px; }
+  .qty button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: var(--bg); color: var(--fg); font: 600 1rem var(--body); cursor: pointer; }
+  .total { display: flex; justify-content: space-between; font-weight: 700; font-size: 1.1rem; border-top: 1px solid var(--line); padding-top: 12px; font-variant-numeric: tabular-nums; }
+  .btn-solid { background: var(--juniper); color: var(--juniper-ink); width: 100%; }
+  .status { font-size: .92rem; color: var(--muted); min-height: 1.4em; }
+  .hours { display: grid; gap: 6px; font-variant-numeric: tabular-nums; }
+  .hours div { display: flex; justify-content: space-between; gap: 12px; }
+  .hours .is-today { font-weight: 700; color: var(--juniper); }
+  .contact { display: grid; gap: 4px; color: var(--muted); }
+  .contact strong { color: var(--fg); }
+
+  /* Reviews */
+  .reviews { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  blockquote { margin: 0; display: grid; gap: 10px; }
+  blockquote p { font-size: 1.02rem; }
+  blockquote footer { color: var(--muted); font-size: .9rem; }
+  .stars { color: var(--butter); letter-spacing: 2px; }
+
+  /* Why this works */
+  .why { background: var(--surface); border-top: 1px solid var(--line); }
+  .checks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 20px; }
+  .check { display: grid; gap: 6px; }
+  .check b { font-family: var(--display); font-size: 1.05rem; }
+  .check span { color: var(--muted); font-size: .94rem; }
+
+  footer.site { padding-block: 28px; color: var(--muted); font-size: .88rem; border-top: 1px solid var(--line); }
+
+  @media (max-width: 820px) {
+    .hero .wrap, .split { grid-template-columns: 1fr; }
+    .reviews { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 420px) { .row { grid-template-columns: 1fr; } }
+  @media (prefers-reduced-motion: no-preference) { .btn, .tab { transition: filter .15s, background .15s, color .15s; } }
+</style>
+
+<div class="note" role="note">
+  <div class="wrap">
+    <span><strong>Concept website:</strong> sample design for a fictional Redmond bakery.</span>
+    <span>Proof of concept · not a real business</span>
+  </div>
+</div>
+
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top" aria-label="Juniper Hearth Bakery home">
+      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+        <circle cx="15" cy="15" r="14" fill="var(--juniper)"/>
+        <path d="M8 18c2-6 12-6 14 0-4 2-10 2-14 0z" fill="var(--butter)"/>
+        <path d="M11 15.5l1.5-3M15 15l0-3.5M19 15.5l-1.5-3" stroke="var(--juniper)" stroke-width="1.4" stroke-linecap="round" fill="none"/>
+      </svg>
+      Juniper Hearth
+    </a>
+    <div class="links">
+      <a href="#menu">Menu</a>
+      <a href="#order">Order ahead</a>
+      <a href="#visit">Visit</a>
+      <a href="#reviews">Reviews</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero" id="top">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Family bakery · Downtown Redmond</span>
+      <h1>Bread worth <em>waking up</em> for.</h1>
+      <p class="lede">Naturally leavened loaves, cardamom buns and Seattle-roasted coffee, baked in small batches every morning since 2024.</p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#order">Order ahead for pickup</a>
+        <a class="btn btn-ghost" href="#menu">See today's menu</a>
+      </div>
+    </div>
+    <aside class="today" aria-label="Today's bake schedule">
+      <span class="open-pill"><span class="dot" id="openDot"></span><span id="openText">Open today 7am–3pm</span></span>
+      <h3>Out of the oven today</h3>
+      <div class="bake-times">
+        <div><span>Cardamom knots</span><span>7:00 am</span></div>
+        <div><span>Country sourdough</span><span>8:30 am</span></div>
+        <div><span>Rosemary focaccia</span><span>10:00 am</span></div>
+        <div><span>Chocolate rye cookies</span><span>12:30 pm</span></div>
+      </div>
+    </aside>
+  </div>
+</header>
+
+<main>
+  <section class="band" id="menu">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Menu</span>
+        <h2>Baked here, this morning</h2>
+        <p>Everything is made in-house from Washington-grown flour. Items sell out, so order ahead if you have a favorite.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Menu categories">
+        <button class="tab" role="tab" id="tab-bread" aria-selected="true" data-cat="bread">Breads</button>
+        <button class="tab" role="tab" id="tab-pastry" aria-selected="false" data-cat="pastry">Pastries</button>
+        <button class="tab" role="tab" id="tab-coffee" aria-selected="false" data-cat="coffee">Coffee &amp; tea</button>
+      </div>
+      <div class="menu" id="menuGrid" role="tabpanel" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="band" id="order" style="padding-top:0">
+    <div class="wrap split">
+      <form class="card" id="orderForm" aria-labelledby="orderTitle">
+        <h3 id="orderTitle">Order ahead</h3>
+        <p style="color:var(--muted)">Pick your items and a pickup time. We'll have them bagged and waiting.</p>
+        <div class="order-lines" id="orderLines"></div>
+        <div class="row">
+          <label for="pickupDay">Pickup day
+            <select id="pickupDay"><option>Today</option><option>Tomorrow</option></select>
+          </label>
+          <label for="pickupTime">Pickup time
+            <select id="pickupTime"><option>8:00 am</option><option>9:00 am</option><option selected>10:00 am</option><option>11:00 am</option><option>12:00 pm</option><option>1:00 pm</option></select>
+          </label>
+        </div>
+        <label for="custName">Your name
+          <input id="custName" type="text" value="Alex" autocomplete="name">
+        </label>
+        <div class="total"><span>Total</span><span id="orderTotal">$0.00</span></div>
+        <button class="btn btn-solid" type="submit">Place pickup order</button>
+        <p class="status" id="orderStatus" role="status"></p>
+      </form>
+
+      <div class="card" id="visit">
+        <h3>Visit us</h3>
+        <div class="contact">
+          <strong>Downtown Redmond, WA</strong>
+          <span>Street parking, plus 2 hours free in the nearby garage</span>
+          <span>Phone: (425) 555-0142</span>
+          <span>hello@juniperhearth.example</span>
+        </div>
+        <div class="hours" id="hours" aria-label="Opening hours"></div>
+        <p style="color:var(--muted);font-size:.92rem">Closed Mondays. Holiday hours are posted here and on our Google profile.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="reviews" style="padding-top:0">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Reviews</span>
+        <h2>What neighbors say</h2>
+      </div>
+      <div class="reviews">
+        <blockquote>
+          <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+          <p>"The cardamom knots are the best thing on the Eastside. Ordering ahead saved my Saturday."</p>
+          <footer>Sample review · Google</footer>
+        </blockquote>
+        <blockquote>
+          <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+          <p>"Real sourdough with a proper crust. I stop in on my way to the trail every weekend."</p>
+          <footer>Sample review · Google</footer>
+        </blockquote>
+        <blockquote>
+          <span class="stars" aria-label="4 out of 5 stars">★★★★☆</span>
+          <p>"Great coffee, friendly owners. The focaccia sells out by noon, so go early."</p>
+          <footer>Sample review · Yelp</footer>
+        </blockquote>
+      </div>
+    </div>
+  </section>
+
+  <section class="band why" aria-labelledby="whyTitle">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">For the business owner</span>
+        <h2 id="whyTitle">What this site fixes</h2>
+        <p>Each part of this page solves a gap our digital audit typically finds for a new local business.</p>
+      </div>
+      <div class="checks">
+        <div class="check"><b>Found on Google</b><span>A real website with name, area and hours helps the business show up for "bakery near me" searches.</span></div>
+        <div class="check"><b>Orders while you sleep</b><span>Order-ahead takes pickup orders without phone calls. A live version connects to Square or Toast.</span></div>
+        <div class="check"><b>Phone-first design</b><span>Most local searches happen on phones. This layout works from small phones to desktops.</span></div>
+        <div class="check"><b>Always-correct hours</b><span>Today's hours are highlighted automatically, so customers don't show up to a closed door.</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">Juniper Hearth Bakery is a fictional business used to demonstrate a website design.</div>
+</footer>
+
+<script>
+  // ---- Data: the bakery's menu. For a real client, this comes from their actual menu. ----
+  const MENU = {
+    bread: [
+      { id: "sour", name: "Country sourdough", price: 9, desc: "Two-day ferment, crackly crust, open crumb.", tag: "Bestseller" },
+      { id: "rye", name: "Seeded rye", price: 10, desc: "Caraway, sunflower and flax. Dense and tangy." },
+      { id: "foc", name: "Rosemary focaccia", price: 7, desc: "Olive oil, flaky salt, fresh rosemary. Half sheet." },
+      { id: "bag", name: "Sesame bagels (4)", price: 8, desc: "Boiled then baked. Ask for cream cheese." },
+    ],
+    pastry: [
+      { id: "card", name: "Cardamom knot", price: 5, desc: "Swedish-style bun, brown sugar and cardamom.", tag: "Bestseller" },
+      { id: "crois", name: "Butter croissant", price: 4.5, desc: "Laminated for three days. Very flaky." },
+      { id: "cook", name: "Chocolate rye cookie", price: 3.5, desc: "Dark chocolate, rye flour, sea salt." },
+      { id: "scone", name: "Marionberry scone", price: 4.75, desc: "Oregon berries, lemon glaze.", tag: "Seasonal" },
+    ],
+    coffee: [
+      { id: "drip", name: "Drip coffee", price: 3, desc: "Medium roast from a Seattle roaster." },
+      { id: "latte", name: "Latte", price: 5, desc: "Double shot. Oat or whole milk." },
+      { id: "chai", name: "House chai", price: 5.25, desc: "Brewed in-house with black tea and whole spices." },
+    ],
+  };
+  const ALL = Object.values(MENU).flat();
+  const money = (n) => "$" + n.toFixed(2);
+
+  // ---- Menu tabs: show one category at a time ----
+  const grid = document.getElementById("menuGrid");
+  function showCategory(cat) {
+    document.querySelectorAll(".tab").forEach((t) => t.setAttribute("aria-selected", String(t.dataset.cat === cat)));
+    grid.setAttribute("aria-labelledby", "tab-" + cat);
+    grid.innerHTML = MENU[cat].map((i) => `
+      <div class="item">
+        <h3>${i.name}${i.tag ? `<span class="tag">${i.tag}</span>` : ""}</h3>
+        <span class="price">${money(i.price)}</span>
+        <p>${i.desc}</p>
+      </div>`).join("");
+  }
+  document.querySelectorAll(".tab").forEach((t) => t.addEventListener("click", () => showCategory(t.dataset.cat)));
+  showCategory("bread");
+
+  // ---- Order ahead: a small cart with + / - buttons ----
+  const cart = { sour: 1, card: 2, latte: 1 }; // example starting order
+  const ORDERABLE = ["sour", "foc", "card", "crois", "cook", "latte"];
+  const lines = document.getElementById("orderLines");
+  function renderCart() {
+    lines.innerHTML = ORDERABLE.map((id) => {
+      const item = ALL.find((i) => i.id === id);
+      const q = cart[id] || 0;
+      return `<div class="order-line">
+        <span>${item.name}</span>
+        <span class="qty">
+          <button type="button" data-id="${id}" data-d="-1" aria-label="Remove one ${item.name}">−</button>
+          <span aria-live="polite">${q}</span>
+          <button type="button" data-id="${id}" data-d="1" aria-label="Add one ${item.name}">+</button>
+        </span>
+        <span>${money(item.price * q)}</span>
+      </div>`;
+    }).join("");
+    const total = ORDERABLE.reduce((s, id) => s + (cart[id] || 0) * ALL.find((i) => i.id === id).price, 0);
+    document.getElementById("orderTotal").textContent = money(total);
+  }
+  lines.addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-id]");
+    if (!b) return;
+    cart[b.dataset.id] = Math.max(0, (cart[b.dataset.id] || 0) + Number(b.dataset.d));
+    renderCart();
+  });
+  renderCart();
+
+  document.getElementById("orderForm").addEventListener("submit", (e) => {
+    e.preventDefault(); // demo: nothing is sent anywhere
+    const count = Object.values(cart).reduce((a, b) => a + b, 0);
+    const status = document.getElementById("orderStatus");
+    if (count === 0) { status.textContent = "Add at least one item to place an order."; return; }
+    const name = document.getElementById("custName").value.trim() || "friend";
+    status.textContent = `Demo only: in the live site, ${name}'s order of ${count} item${count > 1 ? "s" : ""} would go to the bakery for ${document.getElementById("pickupDay").value.toLowerCase()} at ${document.getElementById("pickupTime").value}.`;
+  });
+
+  // ---- Opening hours, with today highlighted ----
+  const HOURS = [["Sunday", "8am – 2pm"], ["Monday", "Closed"], ["Tuesday", "7am – 3pm"], ["Wednesday", "7am – 3pm"], ["Thursday", "7am – 3pm"], ["Friday", "7am – 4pm"], ["Saturday", "7am – 4pm"]];
+  const today = new Date().getDay();
+  document.getElementById("hours").innerHTML = HOURS.map(([d, h], i) =>
+    `<div class="${i === today ? "is-today" : ""}"><span>${d}${i === today ? " (today)" : ""}</span><span>${h}</span></div>`).join("");
+  const [, todayHours] = HOURS[today];
+  const closed = todayHours === "Closed";
+  document.getElementById("openDot").classList.toggle("closed", closed);
+  document.getElementById("openText").textContent = closed ? "Closed today · open tomorrow 7am" : "Open today " + todayHours.replace(/\s/g, "");
+</script>
