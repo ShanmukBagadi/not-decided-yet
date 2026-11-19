@@ -5,263 +5,374 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>QT Food Truck Concept</title>
 <!--
-  CONCEPT DEMO ONLY. Prepared as a sales sample for the owner of QT Food Truck.
+  CONCEPT DEMO ONLY. A sales sample for the owner of QT Food Truck.
   Not affiliated with or approved by the business. Do not publish without the owner's permission.
-  Facts used come from public listings (Best Food Trucks, Seattle Food Truck, MapQuest).
-  Anything in [square brackets] is a placeholder to fill in with the owner.
+  Facts come from public listings (Best Food Trucks, Seattle Food Truck, MapQuest).
+  Anything shown as a pencil note "[...]" is a placeholder to fill in with the owner.
+
+  Design idea: Mexican hand-painted truck signage (rotulos) + papel picado.
+  One committed look, so there is no separate dark mode.
 -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;700;800&family=Inter:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bungee&family=Bungee+Inline&family=Atkinson+Hyperlegible:wght@400;700&family=Caveat:wght@600&display=swap">
 <style>
-  /* Layout: bold street-food hero, menu as a ticket-style list, catering form as the main call to action. */
+  /* Layout: truck-side sign board as the hero with three big doors; a step-by-step plate builder;
+     a parking-sign location plate; a catering ticket with tap-to-choose controls. */
   :root {
-    --bg: #f6f6f3;
-    --surface: #ffffff;
-    --fg: #1e1c1b;
-    --muted: #625d59;
-    --line: #e3e0db;
-    --salsa: #c23b2a;
-    --salsa-ink: #ffffff;
-    --lime: #6f9e22;
-    --hero: #1e1c1b;
-    --hero-fg: #f7f5f2;
-    --ph-bg: #fff1c9;
-    --ph-fg: #6a4d00;
-    --display: "Rubik", "Arial Black", "Segoe UI", system-ui, sans-serif;
-    --body: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #141312; --surface: #1d1b1a; --fg: #eeebe7; --muted: #a8a19b; --line: #302d2a;
-      --salsa: #ef6a55; --salsa-ink: #1a0d0a; --lime: #9fcf4f;
-      --hero: #0d0c0b; --hero-fg: #f7f5f2; --ph-bg: #3b3011; --ph-fg: #f3d88b;
-      color-scheme: dark;
-    }
+    --ink: #141210;        /* truck paint black */
+    --paper: #f4efe6;      /* sign-board primer */
+    --rosa: #e6007e;       /* rosa mexicano */
+    --marigold: #ffb703;   /* cempasuchil */
+    --turq: #00a39a;       /* turquesa */
+    --chile: #d62828;      /* chile red */
+    --white: #ffffff;
+    --pencil: #4a4036;
+    --sign: "Bungee", "Impact", "Arial Black", sans-serif;
+    --sign-inline: "Bungee Inline", "Bungee", "Impact", sans-serif;
+    --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+    --hand: "Caveat", "Comic Sans MS", cursive;
+    color-scheme: light;
   }
   * { box-sizing: border-box; }
-  body { margin: 0; background: var(--bg); color: var(--fg); font: 400 1rem/1.6 var(--body); }
-  img { max-width: 100%; }
-  .wrap { max-width: 1060px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
-  h1, h2, h3 { font-family: var(--display); line-height: 1.08; margin: 0; text-wrap: balance; }
-  h2 { font-size: clamp(1.7rem, 4vw, 2.4rem); font-weight: 800; }
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { animation: none !important; transition: none !important; } }
+  body { margin: 0; background: var(--paper); color: var(--ink); font: 400 1.05rem/1.55 var(--body); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+  h1, h2, h3 { margin: 0; font-weight: 400; line-height: 1; }
   p { margin: 0; }
-  a { color: inherit; }
-  :focus-visible { outline: 3px solid var(--lime); outline-offset: 2px; border-radius: 6px; }
-  .eyebrow { font-size: .78rem; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--salsa); }
-  .ph { background: var(--ph-bg); color: var(--ph-fg); padding: 0 .35em; border-radius: 4px; font-weight: 500; }
+  button { font: inherit; color: inherit; }
+  :focus-visible { outline: 4px solid var(--turq); outline-offset: 3px; }
 
-  .concept { background: var(--ph-bg); color: var(--ph-fg); font-size: .88rem; }
-  .concept .wrap { padding-block: 10px; }
+  /* Pencil-note placeholders: look like the owner still has to write them in */
+  .note { font-family: var(--hand); font-size: 1.25em; color: var(--pencil); background: repeating-linear-gradient(transparent 0 1.15em, rgba(74,64,54,.18) 1.15em 1.2em); padding: 0 .2em; }
 
-  nav { background: var(--hero); color: var(--hero-fg); }
-  nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; padding-block: 14px; }
-  .brand { font-family: var(--display); font-weight: 800; font-size: 1.35rem; text-decoration: none; letter-spacing: .01em; }
-  .brand span { color: var(--salsa); }
-  .links { display: flex; gap: 18px; flex-wrap: wrap; font-weight: 500; font-size: .95rem; }
-  .links a { text-decoration: none; opacity: .8; }
-  .links a:hover { opacity: 1; }
+  .concept { background: var(--marigold); color: var(--ink); font-size: .85rem; font-weight: 700; }
+  .concept .wrap { padding-block: 8px; }
 
-  .hero { background: var(--hero); color: var(--hero-fg); }
-  .hero .wrap { padding-block: clamp(40px, 7vw, 80px); display: grid; grid-template-columns: 1.4fr 1fr; gap: 36px; align-items: end; }
-  .hero h1 { font-size: clamp(2.6rem, 8vw, 5.2rem); font-weight: 800; letter-spacing: -0.02em; }
-  .hero h1 .hl { color: var(--salsa); }
-  .hero .lede { margin-top: 16px; font-size: 1.12rem; max-width: 36ch; opacity: .9; }
-  .cta-row { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 26px; }
-  .btn { display: inline-flex; align-items: center; justify-content: center; padding: 12px 20px; border-radius: 10px; font: 600 1rem var(--body); text-decoration: none; border: 2px solid transparent; cursor: pointer; }
-  .btn-salsa { background: var(--salsa); color: var(--salsa-ink); }
-  .btn-outline { border-color: currentColor; color: var(--hero-fg); background: transparent; }
-  .facts { display: grid; gap: 10px; border-left: 3px solid var(--salsa); padding-left: 18px; }
-  .facts div { display: grid; gap: 2px; }
-  .facts b { font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; opacity: .65; font-weight: 600; }
-  .facts .badges { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-  .facts .ph { justify-self: start; }
-  .badge { font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--lime); color: var(--lime); }
+  /* Papel picado: cut-paper flags strung across the top */
+  .picado { display: flex; height: 54px; background: var(--ink); overflow: hidden; }
+  .flag { flex: 1 0 64px; margin: 0 3px; clip-path: polygon(0 0, 100% 0, 100% 72%, 85% 100%, 70% 72%, 50% 100%, 30% 72%, 15% 100%, 0 72%);
+    -webkit-mask: radial-gradient(circle 4px at 30% 35%, transparent 98%, #000) , radial-gradient(circle 4px at 70% 35%, transparent 98%, #000);
+    -webkit-mask-composite: source-in; mask-composite: intersect;
+    mask: radial-gradient(circle 4px at 30% 35%, transparent 98%, #000), radial-gradient(circle 4px at 70% 35%, transparent 98%, #000); }
+  .flag:nth-child(4n+1) { background: var(--rosa); }
+  .flag:nth-child(4n+2) { background: var(--marigold); }
+  .flag:nth-child(4n+3) { background: var(--turq); }
+  .flag:nth-child(4n+4) { background: var(--chile); }
+  @media (prefers-reduced-motion: no-preference) {
+    .flag { transform-origin: top center; animation: sway 3.2s ease-in-out infinite; }
+    .flag:nth-child(even) { animation-delay: -1.6s; }
+    @keyframes sway { 0%,100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+  }
 
-  section.band { padding-block: clamp(44px, 7vw, 76px); }
-  .head { display: grid; gap: 8px; margin-bottom: 26px; max-width: 62ch; }
-  .head p { color: var(--muted); }
+  /* HERO: the side of the truck */
+  .truck { background: var(--ink); color: var(--paper); }
+  .truck .wrap { padding-block: 28px 44px; display: grid; gap: 26px; }
+  .kicker { font-family: var(--sign); color: var(--turq); letter-spacing: .08em; font-size: .95rem; }
+  .logo { font-family: var(--sign); font-size: clamp(5.5rem, 24vw, 12rem); color: var(--marigold); text-shadow: .045em .045em 0 var(--rosa), .09em .09em 0 var(--turq); line-height: .85; letter-spacing: -.01em; }
+  .logo-sub { font-family: var(--sign-inline); font-size: clamp(1.7rem, 6.5vw, 3.4rem); color: var(--paper); margin-top: 6px; }
+  .tagline { display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--sign); font-size: clamp(.95rem, 2.6vw, 1.2rem); color: var(--rosa); }
+  .tagline span + span::before { content: "\2605"; color: var(--marigold); margin-right: 14px; font-size: .8em; }
+  .where { color: rgba(244,239,230,.8); }
+  .doors { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 6px; }
+  .door { display: grid; gap: 6px; align-content: start; text-align: left; text-decoration: none; padding: 18px 18px 20px; border: 3px solid var(--paper); cursor: pointer; transition: transform .12s ease, box-shadow .12s ease; box-shadow: 6px 6px 0 var(--paper); }
+  .door:hover { transform: translate(-2px, -2px); box-shadow: 8px 8px 0 var(--paper); }
+  .door:active { transform: translate(4px, 4px); box-shadow: 2px 2px 0 var(--paper); }
+  .door b { font-family: var(--sign); font-size: clamp(1.25rem, 3vw, 1.6rem); font-weight: 400; line-height: 1.05; }
+  .door span { font-size: .95rem; }
+  .door.d1 { background: var(--marigold); color: var(--ink); }
+  .door.d2 { background: var(--turq); color: var(--ink); }
+  .door.d3 { background: var(--rosa); color: var(--white); }
 
-  .menu { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
-  .menu-row { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 18px 22px; border-bottom: 1px dashed var(--line); }
-  .menu-row:last-child { border-bottom: 0; }
-  .menu-row h3 { font-size: 1.15rem; font-weight: 700; }
-  .menu-row .price { font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
-  .menu-row p { grid-column: 1 / -1; color: var(--muted); font-size: .94rem; }
-  .special { background: var(--salsa); color: var(--salsa-ink); }
-  .special p { color: inherit; opacity: .9; }
-  .menu-note { margin-top: 12px; font-size: .88rem; color: var(--muted); }
+  /* Section headers painted like sign panels */
+  section { padding-block: clamp(44px, 7vw, 72px); }
+  .panel-title { display: inline-block; font-family: var(--sign); font-size: clamp(1.8rem, 5vw, 2.8rem); background: var(--ink); color: var(--marigold); padding: 10px 16px 8px; transform: rotate(-1.2deg); box-shadow: 5px 5px 0 var(--rosa); }
+  .sec-lede { margin-top: 16px; max-width: 58ch; }
 
-  .split { display: grid; grid-template-columns: 1.15fr 1fr; gap: 28px; align-items: start; }
-  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 24px; display: grid; gap: 16px; min-width: 0; }
-  .card h3 { font-size: 1.35rem; font-weight: 800; }
-  label { font-weight: 600; font-size: .92rem; display: grid; gap: 6px; }
-  input, select, textarea { font: inherit; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); width: 100%; }
-  textarea { min-height: 80px; resize: vertical; }
-  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .btn-block { width: 100%; }
-  .status { font-size: .92rem; color: var(--muted); min-height: 1.4em; }
-  .find { display: grid; gap: 10px; }
-  .find div { display: flex; justify-content: space-between; gap: 12px; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
-  .find div:last-child { border-bottom: 0; }
-  .find span:first-child { font-weight: 600; }
+  /* BUILD YOUR PLATE */
+  .steps { display: grid; gap: 30px; margin-top: 30px; }
+  .step-label { display: flex; align-items: center; gap: 10px; font-family: var(--sign); font-size: 1rem; margin-bottom: 12px; }
+  .step-label i { font-style: normal; display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; background: var(--ink); color: var(--marigold); font-size: .95rem; }
+  .foods { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .food { position: relative; display: grid; gap: 4px; text-align: left; padding: 16px 14px 14px; border: 3px solid var(--ink); background: var(--white); cursor: pointer; min-height: 132px; align-content: end; transition: transform .1s; }
+  .food:hover { transform: translateY(-3px); }
+  .food .nm { font-family: var(--sign); font-size: 1.2rem; line-height: 1.05; }
+  .food .pr { font-weight: 700; font-variant-numeric: tabular-nums; }
+  .food .ic { position: absolute; top: 10px; left: 12px; width: 40px; height: 40px; }
+  .food[aria-pressed="true"] { background: var(--marigold); box-shadow: 6px 6px 0 var(--ink); transform: translate(-3px, -3px); }
+  .food.special { background: var(--chile); color: var(--white); border-color: var(--chile); }
+  .food.special[aria-pressed="true"] { background: var(--chile); box-shadow: 6px 6px 0 var(--ink); outline: 3px solid var(--ink); }
+  .fills { display: flex; flex-wrap: wrap; gap: 12px; }
+  .chip { padding: 12px 20px; border: 3px solid var(--ink); background: var(--white); font-weight: 700; cursor: pointer; border-radius: 999px; }
+  .chip[aria-pressed="true"] { background: var(--turq); color: var(--ink); box-shadow: 4px 4px 0 var(--ink); }
+  .diet { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; font-size: .95rem; }
+  .diet label { display: inline-flex; gap: 8px; align-items: center; cursor: pointer; }
+  .diet input { width: 20px; height: 20px; accent-color: var(--turq); }
 
-  .pitch { background: var(--surface); border-top: 1px solid var(--line); }
-  .pitch-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 22px; }
-  .pitch-grid div { display: grid; gap: 6px; }
-  .pitch-grid b { font-family: var(--display); font-size: 1.05rem; }
-  .pitch-grid span { color: var(--muted); font-size: .94rem; }
+  /* The order ticket */
+  .ticket { max-width: 460px; background: var(--white); border: 3px solid var(--ink); padding: 22px 22px 18px; position: relative; font-variant-numeric: tabular-nums;
+    -webkit-mask: radial-gradient(circle 9px at 50% 100%, transparent 98%, #000) 0 0 / 22px 100% repeat-x; mask: radial-gradient(circle 9px at 50% 100%, transparent 98%, #000) 0 0 / 22px 100% repeat-x; padding-bottom: 30px; }
+  .ticket h3 { font-family: var(--sign); font-size: 1.1rem; display: flex; justify-content: space-between; border-bottom: 2px dashed var(--ink); padding-bottom: 10px; }
+  .t-line { display: flex; justify-content: space-between; gap: 12px; padding-block: 10px; font-size: 1.1rem; }
+  .t-line b { font-family: var(--sign); font-weight: 400; font-size: 1.35rem; }
+  .t-sub { color: var(--pencil); font-size: .95rem; }
+  .t-total { display: flex; justify-content: space-between; border-top: 2px dashed var(--ink); padding-top: 10px; font-family: var(--sign); font-size: 1.4rem; }
+  .t-hint { margin-top: 12px; font-size: .92rem; color: var(--pencil); }
 
-  footer { padding-block: 26px; color: var(--muted); font-size: .86rem; border-top: 1px solid var(--line); }
+  /* FIND THE TRUCK: a street-sign plate */
+  .find { background: var(--turq); }
+  .find-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 28px; align-items: start; margin-top: 26px; }
+  .plate { background: var(--ink); color: var(--paper); border: 6px solid var(--paper); outline: 3px solid var(--ink); border-radius: 14px; padding: 24px; display: grid; gap: 8px; }
+  .plate small { font-family: var(--sign); color: var(--marigold); letter-spacing: .1em; }
+  .plate strong { font-family: var(--sign); font-size: clamp(1.6rem, 4.5vw, 2.4rem); font-weight: 400; line-height: 1.05; }
+  .plate span { opacity: .85; }
+  .sched { background: var(--paper); border: 3px solid var(--ink); padding: 18px 20px; display: grid; gap: 4px; }
+  .sched div { display: flex; justify-content: space-between; gap: 14px; padding-block: 8px; border-bottom: 2px dotted rgba(20,18,16,.3); }
+  .sched div:last-child { border-bottom: 0; }
+  .sched b { font-family: var(--sign); font-weight: 400; }
+  .find .panel-title { box-shadow: 5px 5px 0 var(--marigold); }
 
-  @media (max-width: 820px) { .hero .wrap, .split { grid-template-columns: 1fr; } }
-  @media (max-width: 440px) { .row { grid-template-columns: 1fr; } }
+  /* CATERING */
+  .cater { background: var(--rosa); color: var(--white); }
+  .cater .panel-title { color: var(--white); box-shadow: 5px 5px 0 var(--marigold); }
+  .cater-card { margin-top: 26px; background: var(--paper); color: var(--ink); border: 3px solid var(--ink); box-shadow: 10px 10px 0 var(--ink); padding: 24px; display: grid; gap: 22px; max-width: 760px; }
+  .q { display: grid; gap: 10px; }
+  .q > span { font-family: var(--sign); font-size: 1rem; }
+  .stepper { display: inline-flex; align-items: center; gap: 0; border: 3px solid var(--ink); width: max-content; background: var(--white); }
+  .stepper button { width: 54px; height: 54px; border: 0; background: var(--marigold); font-family: var(--sign); font-size: 1.5rem; cursor: pointer; }
+  .stepper output { min-width: 90px; text-align: center; font-family: var(--sign); font-size: 1.6rem; font-variant-numeric: tabular-nums; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .field { display: grid; gap: 6px; font-weight: 700; font-size: .95rem; }
+  .field input { font: inherit; font-weight: 400; padding: 12px; border: 3px solid var(--ink); background: var(--white); color: var(--ink); width: 100%; }
+  .send { font-family: var(--sign); font-size: 1.2rem; padding: 16px 22px; background: var(--ink); color: var(--marigold); border: 0; cursor: pointer; box-shadow: 5px 5px 0 var(--turq); }
+  .send:active { transform: translate(3px,3px); box-shadow: 2px 2px 0 var(--turq); }
+  .status { font-weight: 700; min-height: 1.4em; }
+
+  /* FOR THE OWNER */
+  .owner { background: var(--paper); border-top: 6px solid var(--ink); }
+  .why { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; margin-top: 26px; }
+  .why div { border-top: 6px solid var(--ink); padding-top: 12px; display: grid; gap: 6px; }
+  .why div:nth-child(1) { border-color: var(--rosa); }
+  .why div:nth-child(2) { border-color: var(--marigold); }
+  .why div:nth-child(3) { border-color: var(--turq); }
+  .why div:nth-child(4) { border-color: var(--chile); }
+  .why b { font-family: var(--sign); font-weight: 400; font-size: 1.05rem; }
+  footer { background: var(--ink); color: rgba(244,239,230,.75); font-size: .85rem; }
+  footer .wrap { padding-block: 22px; }
+
+  @media (max-width: 900px) {
+    .foods { grid-template-columns: repeat(3, 1fr); }
+    .why { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 680px) {
+    .doors, .find-grid, .two { grid-template-columns: 1fr; }
+    .foods { grid-template-columns: 1fr 1fr; }
+    .door { box-shadow: 4px 4px 0 var(--paper); }
+  }
+  @media (max-width: 420px) { .why { grid-template-columns: 1fr; } }
 </style>
 </head>
 <body>
 
-<div class="concept" role="note">
-  <div class="wrap"><strong>Concept demo</strong> prepared for the owner of QT Food Truck. Not the official site. Yellow <span class="ph">[brackets]</span> are details to confirm with the owner.</div>
-</div>
+<div class="concept" role="note"><div class="wrap">CONCEPT DEMO for the owner of QT Food Truck. Not the official site. Pencil notes are details to fill in together.</div></div>
 
-<nav>
-  <div class="wrap">
-    <a class="brand" href="#top">QT <span>Food Truck</span></a>
-    <div class="links">
-      <a href="#menu">Menu</a>
-      <a href="#find">Find the truck</a>
-      <a href="#catering">Catering</a>
-    </div>
-  </div>
-</nav>
+<div class="picado" aria-hidden="true" id="picado"></div>
 
-<header class="hero" id="top">
+<header class="truck">
   <div class="wrap">
     <div>
-      <span class="eyebrow">Mexican street food · Redmond, WA</span>
-      <h1>Tacos, burritos &amp; <span class="hl">quesadillas</span> made fresh.</h1>
-      <p class="lede">Made to order on the truck, with vegan, vegetarian and gluten-free options. Ask about today's special.</p>
-      <div class="cta-row">
-        <a class="btn btn-salsa" href="#catering">Book us for your event</a>
-        <a class="btn btn-outline" href="#menu">See the menu</a>
-      </div>
+      <div class="kicker">Redmond, WA · Mexican street food</div>
+      <h1><span class="logo">QT</span><br><span class="logo-sub">Food Truck</span></h1>
     </div>
-    <div class="facts">
-      <div><b>Where</b><span>11440 Avondale Rd NE, Redmond</span></div>
-      <div><b>Hours</b><span class="ph">[Hours from owner]</span></div>
-      <div><b>Call</b><span class="ph">[Phone from owner]</span></div>
-      <div class="badges"><span class="badge">Vegan options</span><span class="badge">Vegetarian</span><span class="badge">Gluten-free</span><span class="badge">Cards accepted</span></div>
-    </div>
+    <div class="tagline"><span>Tacos</span><span>Burritos</span><span>Quesadillas</span><span>Salads</span></div>
+    <p class="where">11440 Avondale Rd NE · vegan, vegetarian &amp; gluten-free options · cards accepted</p>
+    <nav class="doors" aria-label="What do you want to do?">
+      <a class="door d1" href="#plate"><b>I'm hungry</b><span>Build your plate and see the price</span></a>
+      <a class="door d2" href="#find"><b>Where's the truck?</b><span>Location and today's hours</span></a>
+      <a class="door d3" href="#cater"><b>Cater my event</b><span>Office lunch, party or wedding</span></a>
+    </nav>
   </div>
 </header>
 
 <main>
-  <section class="band" id="menu">
+  <section id="plate">
     <div class="wrap">
-      <div class="head">
-        <span class="eyebrow">Menu</span>
-        <h2>What's cooking</h2>
-        <p>Every item comes with your choice of meat or veggies.</p>
+      <h2 class="panel-title">Build your plate</h2>
+      <p class="sec-lede">Tap what you want. Everything comes with your choice of meat or veggies. Don't forget to ask about the daily special.</p>
+
+      <div class="steps">
+        <div>
+          <div class="step-label"><i>1</i> Pick your food</div>
+          <div class="foods" id="foods"></div>
+        </div>
+        <div>
+          <div class="step-label"><i>2</i> Pick your filling</div>
+          <div class="fills" id="fills">
+            <button class="chip" type="button" aria-pressed="true" data-fill="Meat">Meat</button>
+            <button class="chip" type="button" aria-pressed="false" data-fill="Veggies">Veggies</button>
+          </div>
+          <p class="note" style="display:inline-block;margin-top:10px">[which meats? ask owner: e.g. asada, pollo, al pastor]</p>
+          <div class="diet">
+            <label for="dVegan"><input type="checkbox" id="dVegan"> Make it vegan</label>
+            <label for="dGf"><input type="checkbox" id="dGf"> Make it gluten-free</label>
+          </div>
+        </div>
+        <div>
+          <div class="step-label"><i>3</i> Your order ticket</div>
+          <div class="ticket" aria-live="polite">
+            <h3><span>QT Food Truck</span><span>No. 042</span></h3>
+            <div class="t-line"><b id="tItem">Quesadilla</b><span id="tPrice">$11.80</span></div>
+            <div class="t-sub" id="tSub">with meat · pico de gallo &amp; fresh guacamole</div>
+            <div class="t-total" style="margin-top:12px"><span>Total</span><span id="tTotal">$11.80</span></div>
+            <p class="t-hint">Show this ticket at the window, or call ahead: <span class="note">[phone]</span></p>
+          </div>
+        </div>
       </div>
-      <div class="menu">
-        <div class="menu-row special">
-          <h3>Daily special</h3><span class="price">Ask us</span>
-          <p>Something different every day. Ask at the window.</p>
-        </div>
-        <div class="menu-row">
-          <h3>Tacos</h3><span class="price">$13.61 <small>plate</small></span>
-          <p><span class="ph">[Taco fillings and toppings from owner]</span></p>
-        </div>
-        <div class="menu-row">
-          <h3>Burritos</h3><span class="price"><span class="ph">[$]</span></span>
-          <p><span class="ph">[Burrito description from owner]</span></p>
-        </div>
-        <div class="menu-row">
-          <h3>Quesadilla</h3><span class="price">$11.80</span>
-          <p>Flour tortilla filled with cheddar and mozzarella and your choice of meat or veggies, with a side of pico de gallo and fresh guacamole.</p>
-        </div>
-        <div class="menu-row">
-          <h3>Salads</h3><span class="price"><span class="ph">[$]</span></span>
-          <p><span class="ph">[Salad description from owner]</span></p>
-        </div>
-      </div>
-      <p class="menu-note">Prices taken from a public listing and may be out of date. Confirm with the owner before going live.</p>
     </div>
   </section>
 
-  <section class="band" style="padding-top:0">
-    <div class="wrap split">
-      <form class="card" id="catering" aria-labelledby="catTitle">
-        <h3 id="catTitle">Catering request</h3>
-        <p style="color:var(--muted)">Office lunch, birthday or wedding? Tell us about your event and we'll put together a menu for your group size.</p>
-        <div class="row">
-          <label for="evDate">Event date<input id="evDate" type="date"></label>
-          <label for="evGuests">Number of guests<input id="evGuests" type="number" min="10" value="40"></label>
+  <section class="find" id="find">
+    <div class="wrap">
+      <h2 class="panel-title">Where's the truck?</h2>
+      <div class="find-grid">
+        <div class="plate">
+          <small>Home spot</small>
+          <strong>11440 Avondale Rd NE</strong>
+          <span>Redmond, WA 98052</span>
         </div>
-        <label for="evType">Type of event
-          <select id="evType"><option>Office lunch</option><option>Birthday or party</option><option>Wedding</option><option>School or community event</option><option>Other</option></select>
-        </label>
-        <div class="row">
-          <label for="evName">Your name<input id="evName" type="text" value="Jordan" autocomplete="name"></label>
-          <label for="evContact">Email or phone<input id="evContact" type="text" placeholder="you@example.com"></label>
+        <div class="sched" aria-label="Weekly schedule">
+          <div><b>Mon – Fri</b><span class="note">[hours]</span></div>
+          <div><b>Saturday</b><span class="note">[hours]</span></div>
+          <div><b>Sunday</b><span class="note">[hours]</span></div>
+          <div><b>Events</b><span>See catering below</span></div>
         </div>
-        <label for="evNotes">Anything else?<textarea id="evNotes">About 10 vegetarian guests.</textarea></label>
-        <button class="btn btn-salsa btn-block" type="submit">Send catering request</button>
-        <p class="status" id="catStatus" role="status"></p>
+      </div>
+    </div>
+  </section>
+
+  <section class="cater" id="cater">
+    <div class="wrap">
+      <h2 class="panel-title">Cater my event</h2>
+      <p class="sec-lede">Tell us the basics. We'll build a menu for your group size and get back to you.</p>
+      <form class="cater-card" id="caterForm">
+        <div class="q">
+          <span>How many guests?</span>
+          <div class="stepper">
+            <button type="button" id="gMinus" aria-label="10 fewer guests">−</button>
+            <output id="guests" aria-live="polite">40</output>
+            <button type="button" id="gPlus" aria-label="10 more guests">+</button>
+          </div>
+        </div>
+        <div class="q">
+          <span>What kind of event?</span>
+          <div class="fills" id="evType">
+            <button class="chip" type="button" aria-pressed="true">Office lunch</button>
+            <button class="chip" type="button" aria-pressed="false">Party</button>
+            <button class="chip" type="button" aria-pressed="false">Wedding</button>
+            <button class="chip" type="button" aria-pressed="false">School / community</button>
+          </div>
+        </div>
+        <div class="two">
+          <label class="field" for="cDate">Date<input id="cDate" type="date"></label>
+          <label class="field" for="cContact">Your email or phone<input id="cContact" type="text" placeholder="you@example.com"></label>
+        </div>
+        <button class="send" type="submit">Send my request →</button>
+        <p class="status" id="cStatus" role="status"></p>
       </form>
-
-      <div class="card" id="find">
-        <h3>Find the truck</h3>
-        <div class="find">
-          <div><span>Home spot</span><span>11440 Avondale Rd NE</span></div>
-          <div><span>Weekdays</span><span class="ph">[Schedule]</span></div>
-          <div><span>Weekends</span><span class="ph">[Schedule]</span></div>
-        </div>
-        <p style="color:var(--muted);font-size:.92rem">A live version can show this week's locations, updated by the owner from a phone in under a minute.</p>
-      </div>
     </div>
   </section>
 
-  <section class="band" style="padding-top:0">
+  <section class="owner">
     <div class="wrap">
-      <div class="head">
-        <span class="eyebrow">Reviews</span>
-        <h2>What customers say</h2>
-        <p><span class="ph">[Add 3 real Google or Yelp reviews, with the owner's OK]</span></p>
-      </div>
-    </div>
-  </section>
-
-  <section class="band pitch" aria-labelledby="pitchTitle">
-    <div class="wrap">
-      <div class="head">
-        <span class="eyebrow">For the owner</span>
-        <h2 id="pitchTitle">What a website adds</h2>
-        <p>Today, customers mostly find QT through food-truck directory sites. Your own site puts you in control.</p>
-      </div>
-      <div class="pitch-grid">
-        <div><b>Catering leads, 24/7</b><span>Event requests arrive by email with date, group size and contact details. Catering orders are bigger than window sales.</span></div>
-        <div><b>Show up on Google</b><span>A site with your menu and location helps people searching "tacos Redmond" find you.</span></div>
-        <div><b>"Where are you today?"</b><span>Post your schedule in one place instead of answering the same question over and over.</span></div>
-        <div><b>Your menu, your prices</b><span>Directory listings go out of date. Your site is always correct because you control it.</span></div>
+      <h2 class="panel-title">For the owner</h2>
+      <p class="sec-lede">Today, people mostly find QT through food-truck directory sites. Here's what your own site adds.</p>
+      <div class="why">
+        <div><b>Catering, 24/7</b><span>Event requests land in your inbox with guest count and date. Bigger orders than the window.</span></div>
+        <div><b>Found on Google</b><span>Your menu and location help "tacos Redmond" searches find you.</span></div>
+        <div><b>No more "where are you?"</b><span>One page with your schedule, updated from your phone.</span></div>
+        <div><b>Your menu, your prices</b><span>Directory listings go stale. This one you control.</span></div>
       </div>
     </div>
   </section>
 </main>
 
-<footer>
-  <div class="wrap">Concept design for discussion with QT Food Truck. Not affiliated with or endorsed by the business.</div>
-</footer>
+<footer><div class="wrap">Concept design for discussion with QT Food Truck. Not affiliated with or endorsed by the business.</div></footer>
 
 <script>
-  // Catering form: in this demo nothing is sent. The live version would email the owner.
-  document.getElementById("catering").addEventListener("submit", function (e) {
-    e.preventDefault();
-    const name = document.getElementById("evName").value.trim() || "there";
-    const guests = document.getElementById("evGuests").value || "your";
-    const type = document.getElementById("evType").value.toLowerCase();
-    document.getElementById("catStatus").textContent =
-      "Demo only: in the live site, the owner would get " + name + "'s request for a " + type + " with " + guests + " guests.";
+  // Papel picado: make enough flags to cross the screen
+  const picado = document.getElementById("picado");
+  picado.innerHTML = '<div class="flag"></div>'.repeat(24);
+
+  // ---- Menu data (from public listings; null price = confirm with owner) ----
+  const FOODS = [
+    { id: "tacos", name: "Tacos", price: 13.61, unit: "plate", sub: "taco plate", icon: "taco" },
+    { id: "burrito", name: "Burrito", price: null, sub: "wrapped to go", icon: "burrito" },
+    { id: "quesadilla", name: "Quesadilla", price: 11.80, sub: "pico de gallo & fresh guacamole", icon: "quesa" },
+    { id: "salad", name: "Salad", price: null, sub: "fresh bowl", icon: "salad" },
+    { id: "special", name: "Daily special", price: null, sub: "ask at the window", icon: "star", special: true },
+  ];
+
+  // Simple hand-drawn style icons (inline SVG, so no image files needed)
+  const ICONS = {
+    taco: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 28a15 15 0 0 1 30 0z" fill="#ffb703"/><path d="M10 24c3-4 6-2 8-5s6-1 7 1 5 1 6 4" stroke="#00a39a"/></svg>',
+    burrito: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="12" width="28" height="16" rx="8" fill="#f4efe6"/><path d="M12 12v16M18 12v16" /></svg>',
+    quesa: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M6 30L20 8l14 22z" fill="#ffb703"/><path d="M13 24h14" stroke="#d62828"/></svg>',
+    salad: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 20h30a15 12 0 0 1-30 0z" fill="#f4efe6"/><circle cx="14" cy="16" r="4" fill="#00a39a"/><circle cx="22" cy="14" r="4" fill="#d62828"/><circle cx="28" cy="17" r="3" fill="#00a39a"/></svg>',
+    star: '<svg viewBox="0 0 40 40" fill="#ffb703" stroke="currentColor" stroke-width="2"><path d="M20 4l4.5 10 11 1-8.3 7.4 2.5 10.8L20 27.5 10.3 33.2l2.5-10.8L4.5 15l11-1z"/></svg>',
+  };
+
+  const state = { food: "quesadilla", fill: "Meat", vegan: false, gf: false };
+  const money = (n) => "$" + n.toFixed(2);
+
+  // Draw the five food tiles
+  const foodsEl = document.getElementById("foods");
+  foodsEl.innerHTML = FOODS.map((f) => `
+    <button type="button" class="food${f.special ? " special" : ""}" data-id="${f.id}" aria-pressed="${f.id === state.food}">
+      <span class="ic" aria-hidden="true">${ICONS[f.icon]}</span>
+      <span class="nm">${f.name}</span>
+      <span class="pr">${f.price ? money(f.price) + (f.unit ? " " + f.unit : "") : "Ask us"}</span>
+    </button>`).join("");
+
+  // Update the ticket whenever a choice changes
+  function renderTicket() {
+    const f = FOODS.find((x) => x.id === state.food);
+    const extras = [];
+    if (state.vegan) extras.push("vegan");
+    if (state.gf) extras.push("gluten-free");
+    document.getElementById("tItem").textContent = f.name;
+    document.getElementById("tPrice").textContent = f.price ? money(f.price) : "at window";
+    document.getElementById("tTotal").textContent = f.price ? money(f.price) : "Ask us";
+    document.getElementById("tSub").textContent =
+      "with " + state.fill.toLowerCase() + (extras.length ? " · " + extras.join(", ") : "") + " · " + f.sub;
+  }
+
+  // Make a group of buttons act like "pick one"
+  function pickOne(container, onPick) {
+    container.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn) return;
+      container.querySelectorAll("button").forEach((b) => b.setAttribute("aria-pressed", String(b === btn)));
+      onPick(btn);
+    });
+  }
+  pickOne(foodsEl, (b) => { state.food = b.dataset.id; renderTicket(); });
+  pickOne(document.getElementById("fills"), (b) => { state.fill = b.dataset.fill; renderTicket(); });
+  document.getElementById("dVegan").addEventListener("change", (e) => { state.vegan = e.target.checked; if (e.target.checked) { state.fill = "Veggies"; document.querySelectorAll("#fills .chip").forEach((c) => c.setAttribute("aria-pressed", String(c.dataset.fill === "Veggies"))); } renderTicket(); });
+  document.getElementById("dGf").addEventListener("change", (e) => { state.gf = e.target.checked; renderTicket(); });
+  renderTicket();
+
+  // ---- Catering: guest stepper, event type, demo submit ----
+  let guests = 40;
+  const gOut = document.getElementById("guests");
+  document.getElementById("gMinus").addEventListener("click", () => { guests = Math.max(10, guests - 10); gOut.textContent = guests; });
+  document.getElementById("gPlus").addEventListener("click", () => { guests = Math.min(500, guests + 10); gOut.textContent = guests; });
+  let evType = "Office lunch";
+  pickOne(document.getElementById("evType"), (b) => { evType = b.textContent; });
+  document.getElementById("caterForm").addEventListener("submit", (e) => {
+    e.preventDefault(); // demo: nothing is sent
+    document.getElementById("cStatus").textContent =
+      "Demo only: the owner would get a request for a " + evType.toLowerCase() + " with " + guests + " guests.";
   });
 </script>
 </body>
